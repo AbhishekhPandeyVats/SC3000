@@ -17,7 +17,7 @@ end_node = '50'
 
 
 def bfs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, cost_dict):
-    queue = [(start, [start], 0, 0)]  # Add accumulated energy cost and total distance
+    queue = [(start, [start], 0, 0)]
     visited = set()
 
     while queue:
@@ -28,15 +28,15 @@ def bfs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, c
         visited.add(node)
 
         if node == target and accumulated_energy_cost <= energy_budget:
-            return path, accumulated_energy_cost, total_distance  # Return path, energy cost, and total distance
+            return path, accumulated_energy_cost, total_distance
 
         neighbors = graph[node]
-        # Sort neighbors by energy cost in ascending order
+
         neighbors.sort(key=lambda neighbor: cost_dict.get(f"{node},{neighbor}", float('inf')))
 
         for neighbor_node in neighbors:
-            edge_cost = cost_dict.get(f"{node},{neighbor_node}", 0)  # Get energy cost from Cost dict
-            edge_distance = dist_dict.get(f"{node},{neighbor_node}", 0)  # Get distance from Dist dict
+            edge_cost = cost_dict.get(f"{node},{neighbor_node}", 0)
+            edge_distance = dist_dict.get(f"{node},{neighbor_node}", 0)
             new_accumulated_energy_cost = accumulated_energy_cost + edge_cost
             new_total_distance = total_distance + edge_distance
             new_path = path + [neighbor_node]
@@ -48,7 +48,7 @@ def bfs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, c
             ):
                 queue.append((neighbor_node, new_path, new_accumulated_energy_cost, new_total_distance))
 
-    return None, 0, 0  # No valid path found within the energy budget, return an empty path, 0 energy cost, and 0 distance
+    return None, 0, 0
 
 
 bfs_path, total_energy_cost, total_distance = bfs_with_energy_constraint(G, start_node, end_node, energy_budget, Dist, Cost)
@@ -61,7 +61,7 @@ else:
     print("BFS: No valid path found within the energy budget.")
 
 def dfs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, cost_dict):
-    stack = [(start, [start], 0, 0)]  # Add accumulated energy cost and total distance
+    stack = [(start, [start], 0, 0)]
     visited = set()
 
     while stack:
@@ -72,15 +72,15 @@ def dfs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, c
         visited.add(node)
 
         if node == target and accumulated_energy_cost <= energy_budget:
-            return path, accumulated_energy_cost, total_distance  # Return path, energy cost, and total distance
+            return path, accumulated_energy_cost, total_distance
 
         neighbors = graph[node]
-        # Sort neighbors by energy cost in ascending order
+
         neighbors.sort(key=lambda neighbor: cost_dict.get(f"{node},{neighbor}", float('inf')))
 
         for neighbor_node in neighbors:
-            edge_cost = cost_dict.get(f"{node},{neighbor_node}", 0)  # Get energy cost from Cost dict
-            edge_distance = dist_dict.get(f"{node},{neighbor_node}", 0)  # Get distance from Dist dict
+            edge_cost = cost_dict.get(f"{node},{neighbor_node}", 0)
+            edge_distance = dist_dict.get(f"{node},{neighbor_node}", 0)
             new_accumulated_energy_cost = accumulated_energy_cost + edge_cost
             new_total_distance = total_distance + edge_distance
             new_path = path + [neighbor_node]
@@ -92,8 +92,7 @@ def dfs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, c
             ):
                 stack.append((neighbor_node, new_path, new_accumulated_energy_cost, new_total_distance))
 
-    return None, 0, 0  # No valid path found within the energy budget, return an empty path, 0 energy cost, and 0 distance
-
+    return None, 0, 0
 
 dfs_path, total_energy_cost, total_distance = dfs_with_energy_constraint(G, start_node, end_node, energy_budget, Dist, Cost)
 
@@ -106,7 +105,7 @@ else:
 
 
 def ucs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, cost_dict):
-    open_set = [(0, start, [start], 0, 0)]  # Add priority (cost), node, path, accumulated energy cost, and total distance
+    open_set = [(0, start, [start], 0, 0)]
     visited = set()
 
     while open_set:
@@ -117,12 +116,12 @@ def ucs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, c
         visited.add(node)
 
         if node == target and accumulated_energy_cost <= energy_budget:
-            return path, accumulated_energy_cost, total_distance  # Return path, energy cost, and total distance
+            return path, accumulated_energy_cost, total_distance
 
         neighbors = graph[node]
         for neighbor_node in neighbors:
-            edge_cost = cost_dict.get(f"{node},{neighbor_node}", 0)  # Get energy cost from Cost dict
-            edge_distance = dist_dict.get(f"{node},{neighbor_node}", 0)  # Get distance from Dist dict
+            edge_cost = cost_dict.get(f"{node},{neighbor_node}", 0)
+            edge_distance = dist_dict.get(f"{node},{neighbor_node}", 0)
             new_accumulated_energy_cost = accumulated_energy_cost + edge_cost
             new_total_distance = total_distance + edge_distance
             new_path = path + [neighbor_node]
@@ -134,12 +133,12 @@ def ucs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, c
             ):
                 heapq.heappush(open_set, (new_accumulated_energy_cost, neighbor_node, new_path, new_accumulated_energy_cost, new_total_distance))
 
-    return None, 0, 0  # No valid path found within the energy budget, return an empty path, 0 energy cost, and 0 distance
+    return None, 0, 0
 
-# Use the UCS function with energy cost priority
+
 ucs_path, total_energy_cost, total_distance = ucs_with_energy_constraint(G, start_node, end_node, energy_budget, Dist, Cost)
 
-# Print the results as needed
+
 if ucs_path:
     print("UCS Path:", "->".join(ucs_path))
     print("UCS Total Energy Cost:", total_energy_cost)
