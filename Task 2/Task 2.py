@@ -106,24 +106,25 @@ else:
 
 
 def ucs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, cost_dict):
-    open_set = [(0, start, [start], 0)]  # Add priority (cost), node, path, accumulated energy cost
+    open_set = [(0, start, [start], 0, 0)]  # Add priority (cost), node, path, accumulated energy cost, and total distance
     visited = set()
 
     while open_set:
-        priority, node, path, accumulated_energy_cost = heapq.heappop(open_set)
+        priority, node, path, accumulated_energy_cost, total_distance = heapq.heappop(open_set)
         if node in visited:
             continue
 
         visited.add(node)
 
         if node == target and accumulated_energy_cost <= energy_budget:
-            return path, accumulated_energy_cost  # Return path and accumulated energy cost
+            return path, accumulated_energy_cost, total_distance  # Return path, energy cost, and total distance
 
         neighbors = graph[node]
         for neighbor_node in neighbors:
             edge_cost = cost_dict.get(f"{node},{neighbor_node}", 0)  # Get energy cost from Cost dict
             edge_distance = dist_dict.get(f"{node},{neighbor_node}", 0)  # Get distance from Dist dict
             new_accumulated_energy_cost = accumulated_energy_cost + edge_cost
+            new_total_distance = total_distance + edge_distance
             new_path = path + [neighbor_node]
 
             if (
@@ -131,16 +132,17 @@ def ucs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, c
                     and new_accumulated_energy_cost <= energy_budget
                     and new_path
             ):
-                heapq.heappush(open_set, (new_accumulated_energy_cost, neighbor_node, new_path, new_accumulated_energy_cost))
+                heapq.heappush(open_set, (new_accumulated_energy_cost, neighbor_node, new_path, new_accumulated_energy_cost, new_total_distance))
 
-    return None, 0  # No valid path found within the energy budget, return an empty path and 0 energy cost
+    return None, 0, 0  # No valid path found within the energy budget, return an empty path, 0 energy cost, and 0 distance
 
 # Use the UCS function with energy cost priority
-ucs_path, total_energy_cost = ucs_with_energy_constraint(G, start_node, end_node, energy_budget, Dist, Cost)
+ucs_path, total_energy_cost, total_distance = ucs_with_energy_constraint(G, start_node, end_node, energy_budget, Dist, Cost)
 
 # Print the results as needed
 if ucs_path:
     print("UCS Path:", "->".join(ucs_path))
     print("UCS Total Energy Cost:", total_energy_cost)
+    print("UCS Total Distance:", total_distance)
 else:
     print("UCS: No valid path found within the energy budget.")
