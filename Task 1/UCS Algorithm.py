@@ -1,17 +1,13 @@
 import json
 
-with open("C:/Users/abhis/OneDrive/Desktop/Academics/Year 3 Sem 1/SC3000 - Artificial Intelligence/Assignment 1/G(2)(1).json", 'r') as f:
+with open('G.json', 'r') as f:
     G = json.load(f)
-
-with open("C:/Users/abhis/OneDrive/Desktop/Academics/Year 3 Sem 1/SC3000 - Artificial Intelligence/Assignment 1/Coord(2)(1).json", 'r') as f:
+with open('Coord.json', 'r') as f:
     Coord = json.load(f)
-    
-with open("C:/Users/abhis/OneDrive/Desktop/Academics/Year 3 Sem 1/SC3000 - Artificial Intelligence/Assignment 1/Dist(2)(1).json", 'r') as f:
+with open('Dist.json', 'r') as f:
     Dist = json.load(f)
-
-with open("C:/Users/abhis/OneDrive/Desktop/Academics/Year 3 Sem 1/SC3000 - Artificial Intelligence/Assignment 1/Cost(2)(1).json", 'r') as f:
+with open('Cost.json', 'r') as f:
     Cost = json.load(f)
-
 #====================================================================================================================================================================================#
 
 def uniform_cost_search(goal, start):
