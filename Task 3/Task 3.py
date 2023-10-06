@@ -25,7 +25,7 @@ with open('Cost.json', 'r') as f:
 energy_budget = 287932
 start_node = "1"
 goal_node = "50"
-gamma = 0.2 # 1.0 is the default value
+gamma = 1.0 # 1.0 is the default value
 
 
 # Function to calculate Euclidean Distance, which will be used for our Shortest Distance output
