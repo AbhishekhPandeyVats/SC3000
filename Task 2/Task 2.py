@@ -11,11 +11,11 @@ with open('Dist.json', 'r') as f:
 with open('Cost.json', 'r') as f:
     Cost = json.load(f)
 
-energy_budget = 287932
+energy_budget = 2879320
 start_node = '1'
 end_node = '50'
 
-
+print("Task 2")
 def bfs_with_energy_constraint(graph, start, target, energy_budget, dist_dict, cost_dict):
     queue = [(start, [start], 0, 0)]
     visited = set()
