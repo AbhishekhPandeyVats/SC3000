@@ -395,5 +395,32 @@ def measure_performance(graph_data, coord_data, dist_data, cost_data, start_node
     else:
         print("No Path Found!")
 
+        '''
+# Iterating A* Search n times 
+
+iterations = 1
+runtimes = []
+memory_usages = []
+
+for _ in range(iterations):
+    start_time = time.time()
+    path, energy_cost, total_distance = astarSearch(graph_data, coord_data, dist_data, cost_data, start_node, goal_node, gamma)
+    end_time = time.time()
+    runtime = end_time - start_time
+    runtimes.append(runtime)
+    memory_usage = process.memory_info().rss
+    memory_usages.append(memory_usage)
+
+total_runtime = sum(runtimes)
+average_runtime = sum(runtimes)/iterations
+total_memory_usage = sum(memory_usages)
+average_memory_usage = sum(memory_usages)/iterations
+print("Average Runtime over {} iterations: {:.6f} seconds".format(iterations, average_runtime))
+print("Total Runtime over {} iterations: {:.6f} seconds".format(iterations, total_runtime))
+print("Average Memory Usage over {} iterations: {} bytes".format(iterations, average_memory_usage))
+print("Total Memory Usage over {} iterations: {} bytes".format(iterations, total_memory_usage))
+'''
+
+
 # Task 3 Output
 measure_performance(graph_data, coord_data, dist_data, cost_data, start_node, goal_node, gamma)
